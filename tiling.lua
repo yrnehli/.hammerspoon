@@ -1,8 +1,8 @@
-function leftHalf()
+function left()
     hs.application.frontmostApplication():selectMenuItem({"Window", "Move & Resize", "Left"})
 end
 
-function rightHalf()
+function right()
     hs.application.frontmostApplication():selectMenuItem({"Window", "Move & Resize", "Right"})
 end
 
@@ -44,8 +44,8 @@ hookLeftMouseDragged = hs.eventtap.new({hs.eventtap.event.types.leftMouseDragged
 end)
 
 hs.hotkey.bind({"ctrl", "cmd"}, "w", fill)
-hs.hotkey.bind({"ctrl", "cmd"}, "a", leftHalf)
+hs.hotkey.bind({"ctrl", "cmd"}, "a", left)
 hs.hotkey.bind({"ctrl", "cmd"}, "s", shrink)
-hs.hotkey.bind({"ctrl", "cmd"}, "d", rightHalf)
+hs.hotkey.bind({"ctrl", "cmd"}, "d", right)
 
 hookLeftMouseDragged:start()
