@@ -17,7 +17,7 @@ function shrink()
     local max = screen:frame()
 
     frame.w = max.w / 1.5
-    frame.h = max.h / 1.5
+    frame.h = frame.w / 3 * 2
 
     frame.x = max.x + (max.w / 2) - (frame.w / 2)
     frame.y = max.y + (max.h / 2) - (frame.h / 2)
