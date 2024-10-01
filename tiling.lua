@@ -27,7 +27,7 @@ end
 
 hookLeftMouseDragged = hs.eventtap.new({hs.eventtap.event.types.leftMouseDragged}, function(e)
     local location = e:location()
-    local frame = hs.mouse.getCurrentScreen():frame()
+    local frame = hs.mouse.getCurrentScreen():fullFrame()
 
     if location.y <= frame.y + 1.0 then
         hs.timer.doAfter(0.1, function()
