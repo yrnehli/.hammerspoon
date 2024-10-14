@@ -29,17 +29,22 @@ hookLeftMouseDragged = hs.eventtap.new({hs.eventtap.event.types.leftMouseDragged
     local location = e:location()
     local frame = hs.mouse.getCurrentScreen():fullFrame()
 
-    if location.y <= frame.y + 1.0 then
-        hs.timer.doAfter(0.1, function()
-            fill()
-        end)
-    end
-
     if location.y <= frame.y then
         hs.mouse.setRelativePosition({
             x = location.x,
             y = location.y
         }, "Hack to disable Mission Control")
+    end
+end)
+
+hookLeftMouseUp = hs.eventtap.new({hs.eventtap.event.types.leftMouseUp}, function(e)
+    local location = e:location()
+    local frame = hs.mouse.getCurrentScreen():fullFrame()
+
+    if location.y <= frame.y + 1.0 then
+        hs.timer.doAfter(0.1, function()
+            fill()
+        end)
     end
 end)
 
@@ -49,3 +54,4 @@ hs.hotkey.bind({"ctrl", "cmd"}, "s", shrink)
 hs.hotkey.bind({"ctrl", "cmd"}, "d", right)
 
 hookLeftMouseDragged:start()
+hookLeftMouseUp:start()
