@@ -25,7 +25,11 @@ function shrink()
     win:setFrame(frame)
 end
 
+leftMouseDragged = false
+
 hookLeftMouseDragged = hs.eventtap.new({hs.eventtap.event.types.leftMouseDragged}, function(e)
+    leftMouseDragged = true
+
     local location = e:location()
     local frame = hs.mouse.getCurrentScreen():fullFrame()
 
@@ -35,9 +39,17 @@ hookLeftMouseDragged = hs.eventtap.new({hs.eventtap.event.types.leftMouseDragged
             y = location.y
         }, "Hack to disable Mission Control")
     end
+
+    hs.timer.doAfter(0.1, function()
+        leftMouseDragged = false
+    end)
 end)
 
 hookLeftMouseUp = hs.eventtap.new({hs.eventtap.event.types.leftMouseUp}, function(e)
+    if not leftMouseDragged then
+        return
+    end
+
     local location = e:location()
     local frame = hs.mouse.getCurrentScreen():fullFrame()
 
