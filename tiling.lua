@@ -1,16 +1,16 @@
-function left()
+local function left()
     hs.application.frontmostApplication():selectMenuItem({"Window", "Move & Resize", "Left"})
 end
 
-function right()
+local function right()
     hs.application.frontmostApplication():selectMenuItem({"Window", "Move & Resize", "Right"})
 end
 
-function fill()
+local function fill()
     hs.application.frontmostApplication():selectMenuItem({"Window", "Fill"})
 end
 
-function shrink()
+local function shrink()
     local win = hs.window.focusedWindow()
     local screen = win:screen()
     local frame = win:frame()
@@ -24,6 +24,36 @@ function shrink()
 
     win:setFrame(frame)
 end
+
+local lastRightMouseDownTime = 0
+local doubleClickThreshold = 0.3
+
+local function isOverTitleBar(window)
+    local windowFrame = window:frame()
+    local titleBarHeight = 25
+    local mousePos = hs.mouse.absolutePosition()
+
+    if mousePos.x >= windowFrame.x and mousePos.x <= (windowFrame.x + windowFrame.w) and mousePos.y >= windowFrame.y and
+        mousePos.y <= (windowFrame.y + titleBarHeight) then
+        return true
+    end
+    return false
+end
+
+local rightMouseDownEvent = hs.eventtap.new({hs.eventtap.event.types.rightMouseDown}, function(event)
+    local currentTime = hs.timer.secondsSinceEpoch()
+
+    if (currentTime - lastRightMouseDownTime) < doubleClickThreshold then
+        local window = hs.window.focusedWindow()
+        if window and isOverTitleBar(window) then
+            fill()
+        end
+    end
+
+    lastRightMouseDownTime = currentTime
+end)
+
+rightMouseDownEvent:start()
 
 hs.hotkey.bind({"ctrl", "cmd"}, "w", fill)
 hs.hotkey.bind({"ctrl", "cmd"}, "a", left)
