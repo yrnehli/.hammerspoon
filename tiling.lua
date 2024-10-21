@@ -1,6 +1,7 @@
-local LAST_RIGHT_MOUSE_DOWN_TIME = 0
 local DOUBLE_CLICK_THRESHOLD_SECONDS = 0.3
 local TITLE_BAR_HEIGHT = 30
+
+local lastRightMouseDownTime = 0
 
 local function isOverTitleBar(window)
     local windowFrame = window:frame()
@@ -43,14 +44,14 @@ end
 hs.eventtap.new({hs.eventtap.event.types.rightMouseDown}, function(event)
     local currentTime = hs.timer.secondsSinceEpoch()
 
-    if (currentTime - LAST_RIGHT_MOUSE_DOWN_TIME) < DOUBLE_CLICK_THRESHOLD_SECONDS then
+    if (currentTime - lastRightMouseDownTime) < DOUBLE_CLICK_THRESHOLD_SECONDS then
         local window = hs.window.focusedWindow()
         if window and isOverTitleBar(window) then
             fill()
         end
     end
 
-    LAST_RIGHT_MOUSE_DOWN_TIME = currentTime
+    lastRightMouseDownTime = currentTime
 end):start()
 
 hs.hotkey.bind({"ctrl", "cmd"}, "w", fill)
