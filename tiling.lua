@@ -7,11 +7,9 @@ local function isOverTitleBar(window)
     local windowFrame = window:frame()
     local mousePos = hs.mouse.absolutePosition()
 
-    if mousePos.x >= windowFrame.x and mousePos.x <= (windowFrame.x + windowFrame.w) and mousePos.y >= windowFrame.y and
-        mousePos.y <= (windowFrame.y + TITLE_BAR_HEIGHT) then
-        return true
-    end
-    return false
+    return
+        mousePos.x >= windowFrame.x and mousePos.x <= (windowFrame.x + windowFrame.w) and mousePos.y >= windowFrame.y and
+            mousePos.y <= (windowFrame.y + TITLE_BAR_HEIGHT)
 end
 
 local function left()
