@@ -1,18 +1,3 @@
-local DOUBLE_CLICK_THRESHOLD_SECONDS = 0.3
-local TITLE_BAR_HEIGHT = 30
-
-local lastMiddleMouseDownTime = 0
-
-local function isOverTitleBar(window)
-    local windowFrame = window:frame()
-    local mousePos = hs.mouse.absolutePosition()
-
-    local isWithinXBounds = mousePos.x >= windowFrame.x and mousePos.x <= (windowFrame.x + windowFrame.w)
-    local isWithinYBounds = mousePos.y >= windowFrame.y and mousePos.y <= (windowFrame.y + TITLE_BAR_HEIGHT)
-
-    return isWithinXBounds and isWithinYBounds
-end
-
 local function left()
     hs.application.frontmostApplication():selectMenuItem({"Window", "Move & Resize", "Left"})
 end
@@ -39,23 +24,6 @@ local function shrink()
 
     win:setFrame(frame)
 end
-
-hs.eventtap.new({hs.eventtap.event.types.otherMouseDown}, function(event)
-    if event:getProperty(hs.eventtap.event.properties.mouseEventButtonNumber) ~= 2 then
-        return
-    end
-
-    local currentTime = hs.timer.secondsSinceEpoch()
-
-    if (currentTime - lastMiddleMouseDownTime) < DOUBLE_CLICK_THRESHOLD_SECONDS then
-        local window = hs.window.focusedWindow()
-        if window and isOverTitleBar(window) then
-            fill()
-        end
-    end
-
-    lastMiddleMouseDownTime = currentTime
-end):start()
 
 hs.hotkey.bind({"ctrl", "cmd"}, "w", fill)
 hs.hotkey.bind({"ctrl", "cmd"}, "a", left)
