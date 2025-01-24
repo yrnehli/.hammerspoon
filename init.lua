@@ -1,2 +1,2 @@
 require("tiling")
-require("resize-windows-to-fit")
+require("fix-overflowing-windows")
